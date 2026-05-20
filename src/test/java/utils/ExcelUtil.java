@@ -16,7 +16,7 @@ public class ExcelUtil {
     private static int rowNum = 0;
 
     //  INPUT FILE PATH (CHANGE IF NEEDED)
-    private static String inputFilePath = "C:\\Users\\2487625\\Downloads\\testdata.xlsx";
+    private static String inputFilePath = "choose path";
 
     //  INITIALIZE OUTPUT EXCEL (for results)
     static {
