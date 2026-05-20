@@ -1,4 +1,3 @@
-
 ***
 
 # Travel Website Automation Framework
@@ -7,52 +6,57 @@
 
 ***
 
-##  Project Overview
-
-This project is an **end-to-end automation framework** developed using **Selenium WebDriver, Java, Cucumber (BDD), and TestNG**, designed to automate real-world travel website scenarios.
-
-The framework is built to solve the following automation problem:
-
-***
-
-##  Problem Statement
+## Problem Statement
 
 **Book one-way outstation cab and display the lowest charges**
 
-### Requirements:
+### Requirements
 
-1. From **Delhi → Manali, Himachal Pradesh**
-2. Pickup time: **6:30 AM, 23rd December**
-3. Car Type: **SUV**
-4. Display the **lowest available fare**
-
-***
-
-##  Detailed Use Cases
-
-The framework automates the following three key scenarios:
+1. From Delhi to Manali, Himachal Pradesh
+2. Pickup from Delhi at 6:30 AM on 23rd December
+3. Car type should be SUV
+4. Display the lowest available charges
 
 ***
 
-### 1. Cab Booking Scenario
+## Detailed Description
+
+1. Book one-way outstation cab from Delhi to Manali, Himachal Pradesh by selecting a future date and time, and filter results for SUV cars to display the lowest charges
+2. Navigate to Gift Cards section and select Group Gifting, fill in card details using test data and enter invalid email, then capture and display the validation error message
+3. On the Hotel booking page, extract all available adult count values, store them in a list, and display the extracted data
+
+(Suggested site: MakeMyTrip; however, EaseMyTrip is used for implementation)
+
+***
+
+## Project Overview
+
+This project is an end-to-end automation framework developed using Selenium WebDriver, Java, Cucumber (BDD), and TestNG.  
+It automates real-world travel website scenarios with proper validation, reporting, and data-driven testing.
+
+***
+
+## Test Scenarios
+
+### Cab Booking Scenario
 
 * Navigate to Cab booking section
-* Select **Outstation (One Way)**
-* Enter source: **Delhi**
-* Enter destination: **Manali**
-* Select travel **date and time**
-* Apply filter: **SUV**
-* Fetch and display **lowest cab price**
+* Select Outstation (One Way)
+* Enter source as Delhi
+* Enter destination as Manali
+* Select travel date and time
+* Apply SUV filter
+* Fetch and display the lowest cab price
 
 ***
 
-###  2. Gift Card Validation Scenario
+### Gift Card Validation Scenario
 
-* Navigate through **More Menu → Gift Cards**
-* Select Gift Card
-* Fill form using **Excel test data**
-* Enter **invalid email address**
-* Click **Pay Now**
+* Navigate to More Menu → Gift Cards
+* Select Gift Card option
+* Fill form using Excel data
+* Enter invalid email address
+* Click Pay Now
 * Capture validation error message:
 
 ```
@@ -60,97 +64,98 @@ Error: Email address is required and it should be valid
 ```
 
 * Scroll to email field before capturing screenshot
-* Capture screenshot only after validation
-* Store error message in Excel
+* Capture screenshot only after validation appears
+* Write error message into Excel
 
 ***
 
-###  3. Hotel Booking Scenario
+### Hotel Booking Scenario
 
-* Navigate to **Hotel section**
+* Navigate to Hotel booking section
 * Open guest selection dropdown
-* Extract all available **adult count values**
+* Extract all adult count values
 * Store values in a list
 
-Example output:
+Example:
 
 ```
 [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 ```
 
-* Write extracted values into Excel
+* Save extracted data into Excel
 
 ***
 
-##  Key Automation Scope Covered
+## Key Automation Scope
 
-* Handling alerts and validation messages
-* Filling forms and capturing error messages
-* Scrolling web pages dynamically
-* Extracting dropdown values and storing them in collections
-* Navigating menus and submenus
-* Navigating across pages
+* Handling validation errors
+* Filling forms and capturing messages
+* Scrolling web pages
+* Extracting dropdown values into collections
+* Menu navigation
+* Page navigation
 * Data-driven testing using Excel
-* Capturing screenshots at correct execution stage
+* Screenshot capture at correct execution stage
 
 ***
 
-## ️ Technologies Used
+## Technologies Used
 
-| Technology         | Purpose                       |
-| ------------------ | ----------------------------- |
-| Java               | Programming language          |
-| Selenium WebDriver | Browser automation            |
-| Cucumber (BDD)     | Behavior-driven testing       |
-| TestNG             | Test execution engine         |
-| Maven              | Build & dependency management |
-| Apache POI         | Excel read/write              |
-| Log4j              | Logging                       |
-| Allure Report      | Advanced reporting            |
-| Extent Report      | UI reporting                  |
-| Cucumber Reports   | Scenario reports              |
+| Technology         | Purpose              |
+| ------------------ | -------------------- |
+| Java               | Programming language |
+| Selenium WebDriver | UI automation        |
+| Cucumber (BDD)     | Test structure       |
+| TestNG             | Execution            |
+| Maven              | Build tool           |
+| Apache POI         | Excel handling       |
+| Log4j              | Logging              |
+| Allure Report      | Reporting            |
+| Extent Report      | UI reports           |
+| Cucumber Reports   | Scenario reports     |
 
 ***
 
-##  Framework Architecture
+## Framework Architecture
 
-This framework follows **Page Object Model (POM)** design pattern.
+This framework follows the Page Object Model design pattern.
 
 ```
 src/test/java
- ├── pages               # Page classes (UI actions)
- ├── stepdefinitions     # Step definitions
- ├── hooks               # Setup & teardown
- ├── utils               # Utilities (Excel, screenshots, config)
+ ├── pages
+ ├── stepdefinitions
+ ├── hooks
+ ├── utils
 
 src/test/resources
- ├── features            # Feature files
- ├── config.properties   # Browser & URL config
+ ├── features
+ ├── config.properties
 
 target/
- ├── screenshots         # Screenshots for reports
- ├── reports             # Generated reports
+ ├── screenshots
+ ├── reports
 ```
 
 ***
 
-##  Reporting
+## Reporting
 
-###  Allure Report
+### Allure Report
 
-* Step-level execution
-* Screenshot captured after validation
-* Run using:
+* Detailed test execution
+* Screenshot after validation
 
-```bash
+Run:
+
+```
 allure serve target/allure-results
 ```
 
 ***
 
-###  Extent Report
+### Extent Report
 
-* Screenshot saved in:
+* Screenshot stored in:
 
 ```
 target/screenshots/
@@ -158,107 +163,97 @@ target/screenshots/
 
 ***
 
-###  Cucumber Report
+### Cucumber Report
 
 * Scenario-level execution
-* Screenshot attached only for **Gift Card scenario**
+* Screenshot only for Gift Card scenario
 
 ***
 
-##  Screenshot Strategy
+## Screenshot Strategy
 
-* Screenshot captured **ONLY after clicking Pay Now and validation appears**
-* Scrolls to **email field before capturing**
-* Avoids incorrect screenshots (like menu/hover state)
-* Integrated with:
-    * Allure
-    * Extent Reports
-    * Cucumber (via Hooks)
+* Screenshot captured only after clicking Pay Now and validation appears
+* Scrolls to email field before capturing
+* Avoids early or incorrect screenshots
+* Integrated with Allure, Extent, and Cucumber
 
 ***
 
-##  Excel Data Handling
+## Excel Data Handling
 
-###  Input Data (Sheet1)
+### Input Data
 
 * Amount
 * Quantity
-* Names
+* Sender and receiver details
 * Email
 * Mobile numbers
 
-###  Output Data
+### Output Data
 
-Stored in Excel:
+Stored as:
 
 ```
-Gift Card → Validation Error Message
-Hotel → Adult Count List
-Cab → Lowest Price
+Gift Card → Validation Error Message  
+Hotel → Adult Count List  
+Cab → Lowest Price  
 ```
 
 ***
 
-## ️ Execution
+## Execution
 
 Run using Maven:
 
-```bash
+```
 mvn clean test
 ```
 
 ***
 
-##  Configuration
+## Configuration
 
-Update `config.properties`:
+Update config.properties:
 
-```properties
+```
 browser=chrome
 url=https://www.easemytrip.com/
 ```
 
 ***
 
-##  Key Features
+## Key Features
 
-* Data-driven framework using Excel
-* Robust synchronization using WebDriverWait
-* JavaScript execution for stable UI operations
-* Error handling without failing test execution
-* Clean logging for debugging
-* Modular and scalable design
-* Accurate screenshot capturing at correct stage
+* Data-driven automation
+* Stable execution using waits and JavaScript
+* Proper logging using Log4j
+* Accurate screenshot capturing
+* Modular and scalable framework
 
 ***
 
 ## Project Highlights
 
-* Covers real-world testing scenarios
-* Implements full automation lifecycle
-* Combines UI automation + data validation + reporting
-* Designed for **hackathon evaluation and industry-level usage**
+* Covers real-world automation scenarios
+* Implements complete automation lifecycle
+* Combines UI automation with data validation and reporting
+* Suitable for hackathon evaluation and professional usage
 
 ***
 
-##  Author
+## Author
 
-This automation framework is developed as part of a Selenium-based testing project.
+This project is developed as part of Selenium automation testing practice.
 
 ***
 
-# FINAL OUTPUT
+## Final Output
 
-Your GitHub now clearly shows:
-
-```
-✔ Problem understanding
-✔ Automation coverage
-✔ Framework design
-✔ Tools & technology
-✔ Real-world scenarios
-✔ Reporting capability
-```
+✔ Problem statement clearly implemented  
+✔ All scenarios automated  
+✔ Data-driven execution  
+✔ Reporting with screenshots  
+✔ Clean and structured framework
 
 ***
 
