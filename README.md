@@ -256,5 +256,3 @@ This project is developed as part of Selenium automation testing practice.
 ✔ Clean and structured framework
 
 ***
-
-

@@ -37,13 +37,13 @@ public class Hooks {
 
         try {
 
-            // ✅ ONLY for Gift Card Test Case
+            //  ONLY for Gift Card Test Case
             if (scenario.getName().equalsIgnoreCase("Gift Card Test Case")) {
 
                 byte[] screenshot = ((TakesScreenshot) driver)
                         .getScreenshotAs(OutputType.BYTES);
 
-                // ✅ ALLURE
+                //  ALLURE
                 Allure.addAttachment(
                         scenario.getName(),
                         "image/png",
@@ -51,10 +51,10 @@ public class Hooks {
                         ".png"
                 );
 
-                // ✅ CUCUMBER
+                //  CUCUMBER
                 scenario.attach(screenshot, "image/png", "Gift Card Screenshot");
 
-                // ✅ EXTENT (save file)
+                //  EXTENT (save file)
                 String path = ScreenshotUtil.captureScreenshot(scenario.getName());
                 System.out.println("Screenshot saved at: " + path);
 

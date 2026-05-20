@@ -13,7 +13,7 @@ public class ScreenshotUtil {
 
         WebDriver driver = DriverFactory.getDriver();
 
-        // ✅ Replace spaces to avoid file path issues
+        //  Replace spaces to avoid file path issues
         fileName = fileName.replaceAll(" ", "_");
 
         File src = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
@@ -23,13 +23,13 @@ public class ScreenshotUtil {
         File dest = new File(path);
 
         try {
-            dest.getParentFile().mkdirs();  // ✅ ensure folder exists
+            dest.getParentFile().mkdirs();  //  ensure folder exists
             Files.copy(src.toPath(), dest.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
-            System.out.println("✅ Screenshot stored at: " + path);
+            System.out.println(" Screenshot stored at: " + path);
 
         } catch (Exception e) {
-            System.out.println("❌ Screenshot failed: " + e.getMessage());
+            System.out.println("Screenshot failed: " + e.getMessage());
         }
 
         return path;
