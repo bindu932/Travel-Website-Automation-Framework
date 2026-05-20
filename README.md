@@ -254,5 +254,8 @@ This project is developed as part of Selenium automation testing practice.
 ✔ Data-driven execution  
 ✔ Reporting with screenshots  
 ✔ Clean and structured framework
+## Allure Results
+<img width="947" height="505" alt="image" src="https://github.com/user-attachments/assets/bd38ee18-161c-49a4-9858-0dc30a969dd0" />
+
 
 ***
