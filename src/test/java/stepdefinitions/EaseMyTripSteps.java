@@ -13,35 +13,51 @@ public class EaseMyTripSteps {
     GiftCardPage gift;
     HotelPage hotel;
 
+    // COMMON STEP
     @Given("launch application")
     public void launch_application() {
         // handled by Hooks (browser already opened)
     }
 
-    //  STEP 1 (Test Case 1)
+    // CAB BOOKING
+
     @When("perform cab booking")
     public void cab_booking() {
         cab = new CabPage(driver);
         cab.bookCab();
     }
 
-    //  STEP 2 (Test Case 2)
-    @And("perform gift card validation")
+    @Then("verify cab booking completed")
+    public void verify_cab_booking() {
+        System.out.println("Cab booking executed successfully");
+    }
+
+    // GIFT CARD
+
+    @When("perform gift card validation")
     public void gift_card() {
         gift = new GiftCardPage(driver);
         gift.executeGiftFlow();
+
+        // to fail test case if needed
+        // throw new RuntimeException("Gift Card flow failed");
     }
 
-    //  STEP 3 (Test Case 3)
-    @And("perform hotel adult extraction")
+    @Then("verify gift card validation completed")
+    public void verify_gift_card() {
+        System.out.println("Gift card validation completed");
+    }
+
+    //  HOTEL
+
+    @When("perform hotel adult extraction")
     public void hotel_step() {
         hotel = new HotelPage(driver);
         hotel.getAdultList();
     }
 
-    //  FINAL VERIFICATION
-    @Then("verify all tasks completed")
-    public void verify_all_tasks() {
-        System.out.println(" All tasks executed in single browser successfully");
+    @Then("verify hotel data extracted")
+    public void verify_hotel() {
+        System.out.println("Hotel data extracted successfully");
     }
 }

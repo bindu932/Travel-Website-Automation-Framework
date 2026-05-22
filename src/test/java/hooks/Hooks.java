@@ -1,5 +1,4 @@
 package hooks;
-
 import driver.DriverFactory;
 import io.cucumber.java.*;
 import org.openqa.selenium.*;
@@ -7,15 +6,13 @@ import utils.ConfigReader;
 import utils.ScreenshotUtil;
 import io.qameta.allure.Allure;
 import utils.ExcelUtil;
-
 import java.io.ByteArrayInputStream;
-
 public class Hooks {
-
     private static WebDriver driver;
 
     // BEFORE EACH SCENARIO - launch browser
     @Before
+    //Prepare the test environment BEFORE executing test steps
     public void setUp() {
 
         if (DriverFactory.getDriver() == null) {

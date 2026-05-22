@@ -1,37 +1,83 @@
 package pages;
 
 import org.apache.log4j.Logger;
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.*;
+import org.openqa.selenium.support.ui.*;
+
 import utils.ConfigReader;
 import utils.ExcelUtil;
 
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.*;
-
-import java.time.Duration;
 import java.util.List;
 
-public class CabPage {
+public class CabPage extends BasePage {
 
     // Logger initialization
     Logger log = Logger.getLogger(CabPage.class);
 
-    WebDriver driver;
-    WebDriverWait wait;
+    // -------------------- PAGE FACTORY LOCATORS --------------------
+
+    @FindBy(linkText = "Cabs")
+    WebElement cabsTab;
+
+    @FindBy(xpath = "//label[normalize-space()='Outstation']")
+    WebElement outstationOption;
+
+    @FindBy(id = "sourceName")
+    WebElement sourceField;
+
+    @FindBy(id = "a_FromSector_show")
+    WebElement fromCityInput;
+
+    @FindBy(id = "a_ToSector_show")
+    WebElement toCityInput;
+
+    @FindBy(id = "datepicker")
+    WebElement datePicker;
+
+    @FindBy(className = "ui-datepicker-title")
+    WebElement monthTitle;
+
+    @FindBy(xpath = "//a[@data-handler='next']")
+    WebElement nextArrow;
+
+    @FindBy(xpath = "//a[normalize-space()='23']")
+    WebElement travelDate;
+
+    @FindBy(xpath = "//label[text()='AM']")
+    WebElement amOption;
+
+    @FindBy(xpath = "//li[text()='6 Hr.']")
+    WebElement sixHour;
+
+    @FindBy(xpath = "//li[text()='30 Min.']")
+    WebElement thirtyMin;
+
+    @FindBy(className = "done_d")
+    WebElement doneButton;
+
+    @FindBy(className = "srch-btn-c")
+    WebElement searchButton;
+
+    @FindBy(xpath = "//span[normalize-space()='suv']")
+    WebElement suvFilter;
+
+    @FindBy(xpath = "//span[normalize-space()='Any']")
+    WebElement anyFilter;
+
+    // -------------------- CONSTRUCTOR --------------------
 
     public CabPage(WebDriver driver) {
-        this.driver = driver;
-
-        //  Read timeout from config
-        wait = new WebDriverWait(driver, Duration.ofSeconds(
-                Integer.parseInt(ConfigReader.getProperty("timeout"))
-        ));
+        super(driver);
     }
+
+    // -------------------- MAIN METHOD --------------------
 
     public void bookCab() {
 
         log.info("Starting Cab booking flow");
 
-        //  Read values from config.properties
+        // Read values from config.properties
         String reqMon = ConfigReader.getProperty("reqMonth");
         String from = ConfigReader.getProperty("fromCity").toLowerCase();
         String to = ConfigReader.getProperty("toCity").toLowerCase();
@@ -39,25 +85,21 @@ public class CabPage {
         log.info("Config Data -> From: " + from + " To: " + to + " Month: " + reqMon);
 
         // Click Cabs tab
-        WebElement cabsTab = wait.until(ExpectedConditions.elementToBeClickable(By.linkText("Cabs")));
-        cabsTab.click();
+        wait.until(ExpectedConditions.elementToBeClickable(cabsTab)).click();
         log.info("Clicked Cabs tab");
 
         // Select Outstation
-        wait.until(ExpectedConditions.elementToBeClickable(
-                By.xpath("//label[normalize-space()='Outstation']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(outstationOption)).click();
         log.info("Selected Outstation option");
 
         // Click source field
-        wait.until(ExpectedConditions.elementToBeClickable(By.id("sourceName"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(sourceField)).click();
 
         // Enter FROM city
-        WebElement fromCity = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.id("a_FromSector_show")));
-        fromCity.sendKeys(from);
+        wait.until(ExpectedConditions.visibilityOf(fromCityInput)).sendKeys(from);
         log.info("Entered From City: " + from);
 
-        // Select FROM city dynamically
+        // Dynamic selection for FROM city
         By fromOption = By.xpath("//div[@class='auto_sugg_tttl' and contains(normalize-space(),'"
                 + from + "')]");
 
@@ -72,12 +114,10 @@ public class CabPage {
         }
 
         // Enter TO city
-        WebElement toCity = wait.until(
-                ExpectedConditions.visibilityOfElementLocated(By.id("a_ToSector_show")));
-        toCity.sendKeys(to);
+        wait.until(ExpectedConditions.visibilityOf(toCityInput)).sendKeys(to);
         log.info("Entered To City: " + to);
 
-        // Select TO city dynamically
+        // Dynamic selection for TO city
         By toOption = By.xpath("//div[@class='auto_sugg_tttl' and contains(normalize-space(),'"
                 + to + "')]");
 
@@ -92,56 +132,49 @@ public class CabPage {
         }
 
         // Open date picker
-        WebElement datePicker = wait.until(
-                ExpectedConditions.elementToBeClickable(By.id("datepicker")));
-        datePicker.click();
+        wait.until(ExpectedConditions.elementToBeClickable(datePicker)).click();
         log.info("Opened date picker");
 
         // Select required date
         while (true) {
 
-            WebElement month = wait.until(
-                    ExpectedConditions.visibilityOfElementLocated(By.className("ui-datepicker-title")));
+            String currentMonth = wait.until(ExpectedConditions.visibilityOf(monthTitle)).getText();
 
-            if (!month.getText().equals(reqMon)) {
-                driver.findElement(By.xpath("//a[@data-handler='next']")).click();
+            if (!currentMonth.equals(reqMon)) {
+                nextArrow.click();
             } else {
-                wait.until(ExpectedConditions.elementToBeClickable(
-                        By.xpath("//a[normalize-space()='23']"))).click();
+                wait.until(ExpectedConditions.elementToBeClickable(travelDate)).click();
                 log.info("Travel date selected");
                 break;
             }
         }
 
         // Select time (6:30 AM)
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//label[text()='AM']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[text()='6 Hr.']"))).click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//li[text()='30 Min.']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(amOption)).click();
+        wait.until(ExpectedConditions.visibilityOf(sixHour)).click();
+        wait.until(ExpectedConditions.visibilityOf(thirtyMin)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(doneButton)).click();
 
-        wait.until(ExpectedConditions.elementToBeClickable(By.className("done_d"))).click();
         log.info("Selected pickup time (6:30 AM)");
 
         // Click Search
-        wait.until(ExpectedConditions.elementToBeClickable(By.className("srch-btn-c"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(searchButton)).click();
         log.info("Clicked Search button");
 
         // Wait for results
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//*[contains(text(),'₹')]")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(),'₹')]")));
         log.info("Cab results loaded");
 
         // Apply SUV filter
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[normalize-space()='suv']"))).click();
-        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//span[normalize-space()='Any']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(suvFilter)).click();
+        wait.until(ExpectedConditions.elementToBeClickable(anyFilter)).click();
         log.info("Applied SUV filter");
 
         // Wait after filter
-        wait.until(ExpectedConditions.presenceOfElementLocated(
-                By.xpath("//*[contains(text(),'₹')]")));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(),'₹')]")));
 
         // Fetch all prices
-        List<WebElement> prices = driver.findElements(
-                By.xpath("//*[contains(text(),'₹')]"));
+        List<WebElement> prices = driver.findElements(By.xpath("//*[contains(text(),'₹')]"));
 
         int minPrice = Integer.MAX_VALUE;
 

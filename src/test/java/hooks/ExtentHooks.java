@@ -38,7 +38,7 @@ public class ExtentHooks {
         } else if (scenario.getStatus().toString().equals("PASSED")) {
             test.get().log(Status.PASS, "Test Passed");
         }
-
+        //saves the data to disk
         extent.flush();
     }
 
